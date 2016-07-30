@@ -3,13 +3,13 @@
 
 
 // PART 1: SHOW A FORTUNE
-function showResult(result){
+function showFortuneResult(result){
     $('#fortune-text').html(result);
 }
 
 function showFortune(evt) {
 
-    $.get('/fortune', showResult);  
+    $.get('/fortune', showFortuneResult);  
 
     // TODO: get the fortune and show it in the #fortune-text div
 }
@@ -46,9 +46,23 @@ $("#weather-form").on('submit', showWeather);
 
 
 // PART 3: ORDER MELONS
+function showOrderResults(result){
+    status = result['code'];
+    //alert(status)
+    $('#order-status').html(status);
+    if(status === 'ERROR'){
+        $('#order-status').addClass('order-error');
+    }
+}
 
 function orderMelons(evt) {
     evt.preventDefault();
+    var formInputs = {
+        "melon_type": $('#melon-type-field').val(),
+        "qty": $('#qty-field').val()
+    }
+
+    $.post('/order-melons.json', formInputs, showOrderResults)
 
     // TODO: show the result message after your form
     // TODO: if the result code is ERROR, make it show up in red (see our CSS!)
